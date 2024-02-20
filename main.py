@@ -1,5 +1,6 @@
 import ffmpeg
 import argparse
+import os
 
 
 def get_video_duration(input_file):
@@ -18,6 +19,11 @@ def convert_to_hh_mm_ss(seconds):
     minutes, seconds = divmod(seconds, 60)
     hours, minutes = divmod(minutes, 60)
     return f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+
+
+def move_to_videos_directory(filename, destination="~/Movies"):
+    os.system(f"mkdir {destination}/{filename[:-4]}")
+    os.system(f"mv {filename[:-4]}*{filename[-4:]} {destination}/{filename[:-4]}/")
 
 
 if __name__ == "__main__":
@@ -51,3 +57,5 @@ if __name__ == "__main__":
             break
         end = end + step if end + step < file_duration else file_duration
         output_no += 1
+
+    move_to_videos_directory(output_file)
